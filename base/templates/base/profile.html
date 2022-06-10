@@ -1,0 +1,9 @@
+{% extends 'base/base.html' %}
+{% block list %}
+    <h1>{{ request.user }}</h1>
+    <h5>Email: {{ request.user.email }}</h5>
+    <h5>Do you want change the password? <a href="{% url 'password_reset' %}">Click</a></h5>
+    <h5><a href="{% url 'home' %}" style="color: #blue; text-decoration: none">Go back</a></h5>
+
+
+{% endblock %}

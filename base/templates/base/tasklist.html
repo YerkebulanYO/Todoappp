@@ -1,0 +1,88 @@
+{% extends 'base/base.html' %}
+{% block list %}
+<div class="card-body p-5">
+    {% if request.user.is_authenticated %}
+        <a href="{% url 'profile' %}" style="text-decoration: none; color: #000000;"><h6 style="float: center;">{{ request.user }}</h6></a>
+        <a href="{% url 'logout' %}" style="color: Blue; text-decoration: None">Logout</a>
+
+    {% else %}
+
+    {% endif %}
+
+    <form action="{% url 'home' %}" method="post" class="d-flex justify-content-center align-items-center mb-4">
+        {% csrf_token %}
+        <div class="col-xl">
+            {{ form.title }}
+        </div>
+        <input value="ADD" type="submit" class="btn btn-primary btn-lg ms-2">
+
+    </form>
+    <div class="btn-group">
+    <form action="{% url 'all-delete' %}" method="post">
+        {% csrf_token %}
+        <input value="DELETE ALL" type="submit" class="btn btn-warning btn-lg ms-2">
+    </form>
+    <form action="{% url 'completed-delete' %}" method="post">
+        {% csrf_token %}
+        <input value="DELETE COMPLETED" type="submit" class="btn btn-warning btn-lg ms-2">
+    </form>
+        </div>
+    <hr>
+
+
+    <ul class="list-group mb-0">
+        {% for task in object_list %}
+        <li class="list-group-item  d-flex justify-content-between align-items-center border-start-0 border-top-0 border-end-0 border-bottom rounded-0 mb-2">
+            <div class="d-flex align-items-center">
+                {% if task.completed %}
+                <i><s>{{ task.title }}</s></i>
+                {% else %}
+                <a href="{% url 'complete' task.id %}" style="color: Black; text-decoration: None">{{ task.title }}</a>
+                {% endif %}
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+
+<style>
+        .col-xl input{
+        width: 95%;
+        padding: 5px;
+        }
+
+</style>
+{% endblock %}
+
+
+<!--{% if request.user.is_authenticated %}-->
+<!--    {{ request.user }}-->
+<!--    <a href="{% url 'logout' %}">Logout</a>-->
+<!--{% else %}-->
+<!--    <a href="{% url 'login' %}">Login</a>-->
+<!--    <a href="">Register</a>-->
+<!--{% endif %}-->
+
+<!--<hr>-->
+<!--    <form method="GET">-->
+<!--        {% csrf_token %}-->
+<!--        <input type="text" name="search" value="{{ search }}">-->
+<!--        <input type="submit" value="submit">-->
+<!--    </form>-->
+
+
+<!--    <table>-->
+<!--        <tr>-->
+<!--            <th>Tasks</th>-->
+<!--        </tr>-->
+<!--        {% for task in tasks %}-->
+<!--        <tr>-->
+<!--            <td>{{ task }}</td>-->
+<!--            <td><a href="{% url 'detail' task.pk %}">View</a></td>-->
+<!--            <td><a href="{% url 'update' task.pk %}">Edit</a></td>-->
+<!--            <td><a href="{% url 'delete' task.pk %}">Delete</a></td>-->
+<!--        </tr>-->
+<!--        {% empty %}-->
+<!--        <h2>No tasks</h2>-->
+<!--        {% endfor %}-->
+<!--    </table>-->
